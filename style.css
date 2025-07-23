@@ -1,0 +1,91 @@
+body {
+ margin: 0;
+ font-family: Arial, sans-serif;
+ background-color: #ffffff;
+}
+.logo {
+ height: 40px;
+ background-color: white;
+ padding: 5px;
+ border-radius: 8px;
+}
+header {
+ background-color: #0054A6;
+ color: white;
+ padding: 1rem;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ flex-wrap: wrap;
+}
+.titulo-header {
+
+    
+ flex: 1;
+ text-align: center;
+ font-size: 1.5rem;
+ margin: 0;
+}
+.botoes-header {
+ display: flex;
+ gap: 0.5rem;
+}
+.botao-publicar,
+.botao-voltar {
+ background-color: #F68B1F;
+ color: white;
+ padding: 0.5rem 0.8rem;
+ border-radius: 5px;
+ text-decoration: none;
+ font-weight: bold;
+}
+
+.mural {
+ padding: 1rem;
+}
+.anuncio {
+ border: 1px solid #ccc;
+ border-left: 5px solid #0054A6;
+ margin-bottom: 1rem;
+ padding: 1rem;
+ border-radius: 5px;
+}
+.anuncio h2 {
+ margin: 0 0 0.5rem 0;
+}
+.categoria {
+ display: inline-block;
+ background-color: #F68B1F;
+ color: white;
+ padding: 0.2rem 0.5rem;
+ border-radius: 3px;
+ font-size: 0.8rem;
+ margin-top: 0.5rem;
+}
+.contato {
+ margin-top: 0.5rem;
+ font-weight: bold;
+}
+form {
+ display: flex;
+ flex-direction: column;
+}
+form input, form textarea {
+ margin-bottom: 1rem;
+ padding: 0.5rem;
+ font-size: 1rem;
+}
+form button {
+ padding: 0.5rem;
+ background-color: #0054A6;
+ color: white;
+ border: none;
+ border-radius: 5px;
+ cursor: pointer;
+}
+/* Responsivo */
+@media (max-width: 600px) {
+ .anuncio {
+   font-size: 0.9rem;
+ }
+}
