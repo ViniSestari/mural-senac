@@ -1,4 +1,17 @@
-// Salvar anúncio
+// script.js
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js";
+const firebaseConfig = {
+ apiKey: "AIzaSyApq4Aap0ab3i0ihC2NnGAgcA8MKdDw4JY",
+ authDomain: "mural-senac.firebaseapp.com",
+ databaseURL: "https://mural-senac-default-rtdb.firebaseio.com",
+ projectId: "mural-senac",
+ storageBucket: "mural-senac.firebasestorage.app",
+ messagingSenderId: "919910834762",
+ appId: "1:919910834762:web:c6d6a1fe6121f7aebafcb3"
+};
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 document.addEventListener('DOMContentLoaded', () => {
  const form = document.getElementById('form-anuncio');
  if (form) {
@@ -11,21 +24,29 @@ document.addEventListener('DOMContentLoaded', () => {
        anunciante: form.anunciante.value,
        contato: form.contato.value
      };
-     let anuncios = JSON.parse(localStorage.getItem('anuncios')) || [];
-     anuncios.push(anuncio);
-     localStorage.setItem('anuncios', JSON.stringify(anuncios));
-     alert('Anúncio publicado com sucesso!');
-     window.location.href = 'index.html';
+     const anunciosRef = ref(database, 'anuncios');
+     push(anunciosRef, anuncio)
+       .then(() => {
+         alert('Anúncio publicado com sucesso!');
+         window.location.href = 'index.html';
+       })
+       .catch((error) => {
+         alert('Erro ao publicar anúncio: ' + error.message);
+       });
    });
  }
- // Listar anúncios
  const lista = document.getElementById('lista-anuncios');
  if (lista) {
-   const anuncios = JSON.parse(localStorage.getItem('anuncios')) || [];
-   if (anuncios.length === 0) {
-     lista.innerHTML = '<p>Nenhum anúncio publicado ainda.</p>';
-   } else {
-     anuncios.reverse().forEach((anuncio) => {
+   const anunciosRef = ref(database, 'anuncios');
+   onValue(anunciosRef, (snapshot) => {
+     lista.innerHTML = '';
+     const anuncios = snapshot.val();
+     if (!anuncios) {
+       lista.innerHTML = '<p>Nenhum anúncio publicado ainda.</p>';
+       return;
+     }
+     const anunciosArray = Object.values(anuncios).reverse();
+     anunciosArray.forEach((anuncio) => {
        const div = document.createElement('div');
        div.classList.add('anuncio');
        div.innerHTML = `
@@ -36,6 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
        `;
        lista.appendChild(div);
      });
-   }
+   });
  }
 });
