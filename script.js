@@ -36,17 +36,18 @@ document.addEventListener('DOMContentLoaded', () => {
    });
  }
  const lista = document.getElementById('lista-anuncios');
- if (lista) {
+ const filtro = document.getElementById('filtro-categoria');
+ if (lista && filtro) {
    const anunciosRef = ref(database, 'anuncios');
-   onValue(anunciosRef, (snapshot) => {
+   let todosAnuncios = [];
+   function renderAnuncios(categoriaSelecionada) {
      lista.innerHTML = '';
-     const anuncios = snapshot.val();
-     if (!anuncios) {
-       lista.innerHTML = '<p>Nenhum anúncio publicado ainda.</p>';
+     const filtrados = categoriaSelecionada === 'todas' ? todosAnuncios : todosAnuncios.filter(a => a.categoria === categoriaSelecionada);
+     if (filtrados.length === 0) {
+       lista.innerHTML = '<p>Nenhum anúncio publicado nesta categoria.</p>';
        return;
      }
-     const anunciosArray = Object.values(anuncios).reverse();
-     anunciosArray.forEach((anuncio) => {
+     filtrados.forEach((anuncio) => {
        const div = document.createElement('div');
        div.classList.add('anuncio');
        div.innerHTML = `
@@ -57,6 +58,18 @@ document.addEventListener('DOMContentLoaded', () => {
        `;
        lista.appendChild(div);
      });
+   }
+   onValue(anunciosRef, (snapshot) => {
+     const anuncios = snapshot.val();
+     if (!anuncios) {
+       lista.innerHTML = '<p>Nenhum anúncio publicado ainda.</p>';
+       return;
+     }
+     todosAnuncios = Object.values(anuncios).reverse();
+     renderAnuncios(filtro.value);
+   });
+   filtro.addEventListener('change', () => {
+     renderAnuncios(filtro.value);
    });
  }
 });
