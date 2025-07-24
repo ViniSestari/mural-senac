@@ -89,3 +89,20 @@ form button {
    font-size: 0.9rem;
  }
 }
+.rodape {
+ background-color: #f1f1f1;
+ color: #333;
+ padding: 20px;
+ text-align: center;
+ margin-top: 40px;
+ font-size: 14px;
+ border-top: 2px solid #ffa500; /* laranja SENAC */
+}
+.rodape .redes-sociais a {
+ color: #004080; /* azul SENAC */
+ text-decoration: none;
+ margin: 0 5px;
+}
+.rodape .redes-sociais a:hover {
+ text-decoration: underline;
+}
